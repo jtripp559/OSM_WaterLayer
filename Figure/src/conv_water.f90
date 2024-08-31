@@ -22,6 +22,10 @@
       character*7            ::  cname1
 
       character*128          ::  buf
+
+      character(len=8)       ::  yearmon
+      character(len=8)       ::  default_yearmon
+      logical                ::  file_exists
 ! ===============================================
       allocate(osm(mx,my))
       allocate(var(mx,my),ori(mx,my))
@@ -30,11 +34,36 @@
       read(buf,*) west1
       call getarg(2,buf)
       read(buf,*) south1
+
+      ! Get the current year and month as default
+      call get_current_yearmon(default_yearmon)
+
+      ! Check if yearmon is provided as the third argument
+      if (command_argument_count() >= 3) then
+          call getarg(3,buf)
+          read(buf,'(A)') yearmon
+      else
+          yearmon = default_yearmon
+      endif
+
       call set_name(west1,south1,cname1)
 
-      rfile1='./2021Feb/'//trim(cname1)//'.bil'
+      rfile1='./'//trim(yearmon)//'/'//trim(cname1)//'.bil'
+      ! rfile1='./2021Feb/'//trim(cname1)//'.bil'
+
+      ! Check if the file exists
+      inquire(file=trim(rfile1), exist=file_exists)
+      if (.not. file_exists) then
+          print*, "Error: File ", trim(rfile1), " does not exist."
+          stop
+      endif
+
       open(11,file=rfile1,form='unformatted',access='direct',recl=1*mx*my,status='old',iostat=ios)
-      if( ios/=0 ) stop
+      if( ios /= 0 ) then
+          print *, "Error: Unable to open file ", trim(rfile1)
+          stop
+      endif
+      
       read(11,rec=1) osm
       close(11)
 
@@ -140,3 +169,45 @@
 
       end subroutine nextxy
 
+
+
+
+subroutine get_current_yearmon(yearmon)
+! =============================================
+      implicit none
+!
+      character(len=8) :: yearmon
+      character(len=4) :: year
+      character(len=3) :: month
+      integer :: values(8)
+! ============================================
+      call date_and_time(values=values)
+      write(year,'(I4)') values(1)
+      select case (values(2))
+      case (1)
+          month = 'Jan'
+      case (2)
+          month = 'Feb'
+      case (3)
+          month = 'Mar'
+      case (4)
+          month = 'Apr'
+      case (5)
+          month = 'May'
+      case (6)
+          month = 'Jun'
+      case (7)
+          month = 'Jul'
+      case (8)
+          month = 'Aug'
+      case (9)
+          month = 'Sep'
+      case (10)
+          month = 'Oct'
+      case (11)
+          month = 'Nov'
+      case (12)
+          month = 'Dec'
+      end select
+      yearmon = trim(year)//trim(month)
+      end subroutine get_current_yearmon

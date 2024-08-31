@@ -17,6 +17,8 @@
       character*7            ::  cname1
 
       character*128          ::  buf
+
+      logical                :: dir_exists
 ! ===============================================
       allocate(elevtn(nx,ny),water(nx,ny),osm(nx,ny),var(nx,ny))
 
@@ -26,21 +28,36 @@
       read(buf,*) south1
       call set_name(west1,south1,cname1)
 
-      rfile1='./MERIT_DEM/'//trim(cname1)//'.bin'
-      open(11,file=rfile1,form='unformatted',access='direct',recl=4*nx*ny,status='old',iostat=ios)
-      if( ios/=0 ) stop
-      read(11,rec=1) elevtn
-      close(11)
+      inquire(file='./MERIT_DEM/', exist=dir_exists)
+      if (dir_exists) then
+        rfile1='./MERIT_DEM/'//trim(cname1)//'.bin'
+        open(11,file=rfile1,form='unformatted',access='direct',recl=4*nx*ny,status='old',iostat=ios)
+        if( ios/=0 ) stop
+        read(11,rec=1) elevtn
+        close(11)
+      else
+        print *, 'Directory ./MERIT_DEM/ does not exist.'
+      end if
 
-      rfile1='./G3WBM/'//trim(cname1)//'_wat.bil'
-      open(11,file=rfile1,form='unformatted',access='direct',recl=1*nx*ny)
-      read(11,rec=1) water
-      close(11)
+      inquire(file='./G3WBM/', exist=dir_exists)
+      if (dir_exists) then
+        rfile1='./G3WBM/'//trim(cname1)//'_wat.bil'
+        open(11,file=rfile1,form='unformatted',access='direct',recl=1*nx*ny)
+        read(11,rec=1) water
+        close(11)
+      else
+        print *, 'Directory ./G3WBM/ does not exist.'
+      end if
 
-      rfile1='../5deg/'//trim(cname1)//'.bil'
-      open(11,file=rfile1,form='unformatted',access='direct',recl=1*nx*ny)
-      read(11,rec=1) osm
-      close(11)
+      inquire(file='../5deg/', exist=dir_exists)
+      if (dir_exists) then
+        rfile1='../5deg/'//trim(cname1)//'.bil'
+        open(11,file=rfile1,form='unformatted',access='direct',recl=1*nx*ny)
+        read(11,rec=1) osm
+        close(11)
+      else
+        print *, 'Directory ../5deg/ does not exist.'
+      end if
 
 ! ===================================
       var(:,:)=0
@@ -61,11 +78,15 @@
       end do
 
 
-
-      wfile1='./var_'//trim(cname1)//'.bin'
-      open(21,file=wfile1,form='unformatted',access='direct',recl=4*nx*ny)
-      write(21,rec=1) var
-      close(21)
+      inquire(file='./var_', exist=dir_exists)
+      if (dir_exists) then
+        wfile1='./var_'//trim(cname1)//'.bin'
+        open(21,file=wfile1,form='unformatted',access='direct',recl=4*nx*ny)
+        write(21,rec=1) var
+        close(21)
+      else
+        print *, 'Directory ./var_ does not exist.'
+      end if
 
 
       end program slope_srtm30

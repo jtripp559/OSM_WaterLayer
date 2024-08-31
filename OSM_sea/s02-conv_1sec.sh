@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# Check if DEM_jpn directory exists
+if [ ! -d "./DEM_jpn" ]; then
+  echo "Error: DEM_jpn directory does not exist."
+  exit 1
+fi
+
 WEST=$1
 EAST=$2
 SOUTH=$3

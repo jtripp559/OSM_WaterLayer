@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# Check if DEM directory exists
+if [ ! -d "./DEM" ]; then
+  echo "Error: DEM directory does not exist."
+  exit 1
+fi
+
 WEST=$1
 EAST=$2
 SOUTH=$3

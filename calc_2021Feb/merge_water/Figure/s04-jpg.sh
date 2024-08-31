@@ -1,9 +1,15 @@
 #!/bin/sh
 USER=`whoami`
 
-#link base topography data
-ln -sf ~yamadai/work/data/DEM/MERIT_DEM/v11     MERIT_DEM
-ln -sf ~yamadai/work/data/WaterMask/G3WBM/5deg  G3WBM
+# #link base topography data
+# ln -sf ~yamadai/work/data/DEM/MERIT_DEM/v11     MERIT_DEM
+# ln -sf ~yamadai/work/data/WaterMask/G3WBM/5deg  G3WBM
+
+# Check if MERIT_DEM directory exists
+if [ ! -d "./MERIT_DEM" ]; then
+  echo "Error: MERIT_DEM directory does not exist."
+  exit 1
+fi
 
 LON_ORI=-180
 LON_END=180

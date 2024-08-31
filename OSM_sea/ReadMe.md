@@ -7,6 +7,7 @@ Work in OSM_sea/ directory.
 
 ### Download OSM water polygons
 - Download water-polygons-split-4326.zip from https://osmdata.openstreetmap.de/data/water-polygons.html.
+    - Full address: https://osmdata.openstreetmap.de/download/water-polygons-split-4326.zip
 - Put the zip file in download/ directory, and extract the data.
 
 ### Rasterlize at 5deg tile (3sec resolution) and 1deg tile (1sec resolution for Japan)

@@ -18,6 +18,7 @@ The scripts are written for MacOS. Modifications might be needed for other envir
 - Make a project directory (sample calc_2021Feb/ to process the OSM planet data at that time)
 - Go to extract_water/ directory.
 - Make osm/ directory, and download the latest planet.pbf from servers.
+    ### https://planet.openstreetmap.org/pbf/planet-latest.osm.pbf
 - Then, follow the instruction in ReadMe.md  in calc_2021Feb/ directory.
 
 ### [3] (optional) Create High-resolution OSM water layer

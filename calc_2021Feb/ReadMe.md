@@ -21,7 +21,7 @@ Then, **osm/planet-mod.osm.pbf** will be outputed as pre-proccessed planet data.
 
 ### [2] Extract water
 Extract major water body from planet.osm
-1. Goto extrat_water/ directory.
+1. Goto extract_water/ directory.
 2. edit s00-link directory if needed.
 3. Execute a02-waterlayer.sh script.
 - s01: First, water-related components are extracted from planet-mod.pbf.
